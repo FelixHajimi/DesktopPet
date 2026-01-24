@@ -44,8 +44,8 @@ your-project/
 ### 示例 setting.json:
 ```json
 {
-  "desktopPetPath": "data/my_cat", // 宠物配置路径
-  "debug": false              // 调试模式
+  "desktopPetPath": "data/my_cat",        // 宠物配置路径
+  "debug": false                          // 调试模式
 }
 ```
 

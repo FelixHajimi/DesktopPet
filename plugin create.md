@@ -27,7 +27,7 @@ pluginName = "插件在右键菜单的显示名称"
 
 IMAGE = QtGui.QMovie
 TIMER = QtCore.QTimer
-STATE = list
+STATE = dict
 WINDOW = QtWidgets.QWidget
 
 

@@ -28,6 +28,15 @@ pluginName = "插件在右键菜单的显示名称"
 IMAGE = QtGui.QMovie
 TIMER = QtCore.QTimer
 STATE = dict
+"""
+self.state = {
+    "pause": False,                 # 是否暂停动画
+    "postion": self.postion,        # 桌宠位置
+    "motion": self.motion,          # 桌宠动量
+    "screenWidth": screenWidth,     # 屏幕宽度
+    "screenHeight": screenHeight,   # 屏幕高度
+}
+"""
 WINDOW = QtWidgets.QWidget
 
 

@@ -142,9 +142,6 @@ class main(Template):
                     self.state = 1
                     self.eventTime = 5
                     self.lastTime = time.time()
-            else:
-                self.state = 0
-                print(f"您的代码有点问题：\nstate:{self.state}")
 
 
 entry = main()

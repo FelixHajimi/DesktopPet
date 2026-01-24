@@ -7,7 +7,7 @@ pluginName = "哈基米"
 
 IMAGE = QtGui.QMovie
 TIMER = QtCore.QTimer
-STATE = list
+STATE = dict
 WINDOW = QtWidgets.QWidget
 
 

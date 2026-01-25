@@ -30,7 +30,7 @@ TIMER = QtCore.QTimer
 STATE = dict
 """
 self.state = {
-    "pause": False,                 # 是否暂停动画
+    "pause": False,                 # 是否暂停动画(仅限于stand.gif,drop.gif)
     "postion": self.postion,        # 桌宠位置
     "motion": self.motion,          # 桌宠动量
     "screenWidth": screenWidth,     # 屏幕宽度
@@ -47,10 +47,10 @@ class Template:
     def create(
         self,
         image: IMAGE,
-        mainTimer: TIMER,
-        physicsTimer: TIMER,
+        mainTimer: TIMER,           # 这个如果暂停会暂停位置更新
+        physicsTimer: TIMER,        # 物理更新
         state: STATE,
-        window: WINDOW,
+        window: WINDOW,             # 这个是主窗口，可以把一些自己的想法放到上面
     ):
         """
         这是用来创建插件的模板
@@ -80,6 +80,7 @@ menu = {
 在你的桌宠的 config.json 文件里，plugin 键里的列表新增一个值用来保存 main.py 的路径
 
 **例如:**
+
 ```json
 {
     ...
@@ -90,18 +91,9 @@ menu = {
     ...
 }
 ```
+
 **注意：后面不要加文件名**
 
 ## 示例右键效果
 
-```
-┌───────────────┐
-│ 退出          │
-│ 关于          │
-│ 插件1      ▶ ├───────────────┐
-│ 显示碰撞箱     │ 功能1         │
-└───────────────┥ 功能2         │
-                │ ...           │
-                └───────────────┘
-
-```
+![这是右键效果](https://github.com/Felix-Dream/DesktopPet/image/content_menu.png)

@@ -1,0 +1,9 @@
+{
+  "name": "桌宠",
+  "version": "0.0",
+  "author": "\n  星源(美术)\n  夕阳山外山(插件)",
+  "imagePath": "./data/Template/res/",
+  "acc": [0, 0.5],
+  "fri": [1, 0],
+  "plugin": ["./data/Template/plugin/main/"]
+}

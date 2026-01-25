@@ -1,9 +1,0 @@
-{
-  "name": "哈基米",
-  "version": "0.0",
-  "author": "\n  星源(美术)\n  夕阳山外山(插件)",
-  "imagePath": "./data/Hajimi/res/",
-  "acc": [0, 0.5],
-  "fri": [1, 0],
-  "plugin": ["./data/Hajimi/plugin/main/"]
-}

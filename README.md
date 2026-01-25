@@ -54,7 +54,7 @@ your-project/
 {
   "name": "小橘",                         // 宠物名称
   "version": "1.0.0",                    // 宠物版本
-  "author": "ABC",                       // 制作人
+  "author": "ABC",                       // 作者
   "imagePath": "data/my_cat/res/",       // 图片路径
   "acc": [0.3, 0.5],                     // 重力 (x, y)
   "fri": [0.8, 0.8],                     // 摩擦力 (x, y，仅限于墙体)

@@ -96,4 +96,4 @@ menu = {
 
 ## 示例右键效果
 
-![这是右键效果](https://github.com/Felix-Dream/DesktopPet/blob/main/images/content_menu.png)
+![这是右键效果](https://github.com/Felix-Dream/DesktopPet/blob/main/images/context_menu.png)

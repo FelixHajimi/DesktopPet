@@ -106,5 +106,5 @@ See the full license in the [`LICENSE`](./LICENSE) file.
 
 ## 🙇‍ Special thanks
 ### Artist: 
-- 雁铭.
+- 残月
 - 星源

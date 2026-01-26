@@ -106,5 +106,5 @@ See the full license in the [`LICENSE`](./LICENSE) file.
 
 ## 🙇‍ Special thanks
 ### Artist: 
-- 雁铭.(QQ 938443751)
-- ༺༽星✦源༼༻(QQ 3485383535)
+- 雁铭.
+- 星源

@@ -215,7 +215,7 @@ class Window(QtWidgets.QWidget):
             QtWidgets.QMessageBox.about(
                 self,
                 f"关于{data["name"]}",
-                f"桌宠名字: {data["name"]}\n版本号: v{data["version"]}\n作者: {data["author"]}\n{data["other"] if "other" in data else ""}",
+                f"桌宠名字: {data["name"]}\n版本号: v{data["version"]}\n作者: {data["author"]}{"\n"+data["other"] if "other" in data else ""}",
             )
 
         menuDict = {

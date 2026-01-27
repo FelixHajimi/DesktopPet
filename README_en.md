@@ -1,15 +1,15 @@
 # Desktop Pet
 
-A cute, interactive, and plugin-enabled desktop pet built with Python + PySide6. It falls to the bottom of your screen, can be dragged, thrown, and moves with realistic physics!
+A cute, interactive, and plugin-enabled desktop pet built with Python + PySide6.
 
 ## Features
 
-- 🎮 **Physics Engine**: Simulates gravity, collision, and friction for natural motion
-- 🖱️ **Interactive Controls**: Drag, throw, and pause the pet
-- 🧩 **Plugin System**: Extend functionality via plugins (e.g., expressions, voice, mini-games)
-- 🧪 **Debug Mode**: Toggle collision boxes for development
-- 🛠️ **Borderless & Always-on-Top Window**: Stays above all apps without interfering
-- 📦 **Configurable**: Customize behavior via `config.json` and `setting.json`
+🎮 **Physics Engine**: Simulates gravity, collision, and friction for natural motion  
+🖱️ **Interactive Controls**: Drag, throw, and pause the pet  
+🧩 **Plugin System**: Extend functionality via plugins (e.g., expression switching, voice, mini-games)  
+🧪 **Debug Mode**: Toggle collision boxes for development  
+🛠️ **Borderless & Always-on-Top Window**: Stays above all apps without interfering  
+📦 **Configurable**: Customize appearance and behavior via `config.json` and `setting.json`
 
 ## 🚀 Quick Start
 
@@ -17,11 +17,11 @@ A cute, interactive, and plugin-enabled desktop pet built with Python + PySide6.
 
 - Python 3.8+
 - PySide6
-- System support for GIF animation
+- System support for animated GIFs
 
 ### Install Dependencies
 
-``` bash
+```sh
 pip install PySide6
 ```
 
@@ -29,48 +29,48 @@ pip install PySide6
 
 Your project root should contain:
 
-``` 
+```txt
 your-project/
 ├── main.py                 # Main program
-├── setting.json            # Global settings (pet path, debug mode)
-└── pets/my_cat/            # Example pet folder
-    ├── config.json         # Pet configuration
-    ├── icon.gif            # Application icon
+├── setting.json            # Startup settings (debug mode, pet config path)
+└── [your_pet_folder]/      # e.g., my_cat
+    ├── config.json         # Pet configuration (name, author, icon, plugins, etc.)
+    ├── icon.gif            # Pet icon
     └── basic/
         ├── stand.gif       # Idle animation
-        └── drop.gif        # Falling/moving animation
+        └── drop.gif        # Falling animation
 ```
 
-### Example `setting.json`
+### Example `setting.json`:
 
-``` json
+```json
 {
-  "desktopPetPath": "pets/my_cat",
+  "desktopPetPath": "data/my_cat",
   "debug": false
 }
 ```
 
-### Example `config.json`
+### Example `config.json`:
 
-``` json
+```json
 {
-  "name": "Xiao Ju",
+  "name": "小橘",
   "version": "1.0.0",
-  "author": "Your Name",
-  "imagePath": "pets/my_cat",
+  "author": "ABC",
+  "imagePath": "data/my_cat/res/",
   "acc": [0.3, 0.5],
   "fri": [0.8, 0.8],
-  "plugin": []
+  "plugin": ["data/my_cats/plugin/main"]
 }
 ```
 
 ### Run the Program
 
-``` bash
+```sh
 python main.py
 ```
 
-The pet will appear at the bottom center of your screen in a transparent, full-screen window.
+The program runs in a full-screen transparent window, and the pet appears at the bottom center of the screen.
 
 ## 🎮 Usage
 
@@ -78,33 +78,42 @@ The pet will appear at the bottom center of your screen in a transparent, full-s
 - **Right-click**: Open context menu
   - Exit
   - About
-  - Plugin actions (if any)
-  - Toggle Collision Box (in debug mode)
-- **Auto-start plugins**: Plugins with `__autoStart__ = True` load automatically
+  - Plugin 1 (if loaded)
+  - Plugin 2 (if loaded)
+  - ...
+  - Toggle Collision Box (only visible in debug mode)
+
+## Auto-start Plugins
+
+Plugins marked with `__autoStart__ = True` will be loaded automatically on startup.
 
 ## 🔌 Plugin Development (Advanced)
 
-Plugins must include a `main.py` that defines:
+A plugin must include a `main.py` file that defines:
+
 - `pluginName`: Plugin name
-- `menu`: A dict like `{display_name: object}`
+- `menu`: Menu item dictionary in the format `{display_name: object}`
 
-Each menu object must have:
-- A `create(...)` method (receives `image`, `timers`, `state`, `window`, etc.)
-- Optional: `__autoStart__ = True` for auto-loading
+Each menu item object must have:
 
-> Plugins can dynamically change animations, behaviors, or add new interactions.
+- A `create(...)` method that receives parameters such as `image`, `timers`, `state`, and `window`
+- (Optional) `__autoStart__ = True` to enable auto-loading on startup
+
+Plugins can dynamically change the pet’s animation, behavior logic, or add new interactions.
 
 ## ⚠️ Disclaimer
 
-This project is licensed under the **MIT License**.  
-You are free to **modify, distribute, and use commercially**, provided you **retain the original author's name in the source code**.  
-**Use at your own risk. The author is not liable for any direct or indirect damages.**
+This project is licensed under the MIT License.  
+You are free to modify, distribute, and use it commercially, provided you retain the original author information in the source code.  
+Use at your own risk. The author is not liable for any direct or indirect damages.
 
 ## 📄 License
 
-See the full license in the [`LICENSE`](./LICENSE) file.
+This project uses the MIT License — see the [LICENSE](./LICENSE) file for details.
 
-## 🙇‍ Special thanks
-### Artist: 
+## 🙇 Special Thanks
+
+Artist:
+
 - 残月
 - 星源

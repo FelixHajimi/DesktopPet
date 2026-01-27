@@ -56,7 +56,14 @@ class Template:
         这是用来创建插件的模板
         发挥你的想象力！
         """
-        pass
+        self.image = image
+
+    def loadMovie(self, path: str): # 这个可以帮助加载动画
+        # 加载动画
+        if self.image.fileName() != path:
+            self.image.setFileName(path)
+            self.image.jumpToFrame(0)
+        self.image.start()
 ```
 
 > 其中的 \_\_autoStart\_\_ 是判断桌宠启动时的自启动选项，默认为False(关闭)

@@ -1,14 +1,14 @@
 from PySide6 import QtWidgets, QtGui, QtCore
-import time
-import random
-import rich
+import os
 
-pluginName = "模板"
+pluginName = "修米"
 
 IMAGE = QtGui.QMovie
 TIMER = QtCore.QTimer
 STATE = dict
 WINDOW = QtWidgets.QWidget
+
+PATH = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
 
 
 class Template:

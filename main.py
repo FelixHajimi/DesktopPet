@@ -46,16 +46,10 @@ class Window(QtWidgets.QWidget):
         self.nowMousePos = [0, 0]
         self.lastMousePos = [0, 0]
 
-        self.postion = [(screenWidth - 128) // 2, screenHeight - 128]
+        self.position = [(screenWidth - 128) // 2, screenHeight - 128]
         self.motion = [0, 0]
         self.pause = False
-        self.state = {
-            "pause": False,
-            "postion": self.postion,
-            "motion": self.motion,
-            "screenWidth": screenWidth,
-            "screenHeight": screenHeight,
-        }
+        self.pressed = False
 
         self.showBox = False
 
@@ -69,9 +63,21 @@ class Window(QtWidgets.QWidget):
 
         self.desktopPet = QtWidgets.QLabel(self)
         self.desktopPet.setCursor(QtCore.Qt.CursorShape.OpenHandCursor)
+        self.desktopPet.mousePressEvent = self.MousePressEvent
+        self.desktopPet.mouseMoveEvent = self.MouseMoveEvent
+        self.desktopPet.mouseReleaseEvent = self.MouseReleaseEvent
         self.image = QtGui.QMovie()
         self.desktopPet.setMovie(self.image)
         self.desktopPet.resize(128, 128)
+
+        self.state = {
+            "pause": False,
+            "position": self.position,
+            "motion": self.motion,
+            "screenWidth": screenWidth,
+            "screenHeight": screenHeight,
+            "update": [],
+        }
 
         # 自启动判断
         _ = []
@@ -106,7 +112,7 @@ class Window(QtWidgets.QWidget):
         # 主时钟循环
         self.pause = self.state["pause"]
         self.motion = self.state["motion"]
-        self.postion = self.state["postion"]
+        self.position = self.state["position"]
         if not self.pause:
             if (
                 abs(self.state["motion"][0]) <= data["acc"][0]
@@ -115,7 +121,11 @@ class Window(QtWidgets.QWidget):
                 self.loadMovie(f"{data["imagePath"]}/basic/stand.gif")
             else:
                 self.loadMovie(f"{data["imagePath"]}/basic/drop.gif")
-        self.desktopPet.move(self.state["postion"][0], self.state["postion"][1])
+
+        for i in self.state["update"]:
+            i()
+
+        self.desktopPet.move(self.state["position"][0], self.state["position"][1])
 
     def physicsStep(self):
         # 物理时钟循环
@@ -125,37 +135,37 @@ class Window(QtWidgets.QWidget):
         self.state["motion"][1] += data["acc"][1]
 
         # 速度预处理
-        if self.state["motion"][0] > screenWidth - (self.state["postion"][0] + 128):
+        if self.state["motion"][0] > screenWidth - (self.state["position"][0] + 128):
             self.state["motion"][0] = 0
-            self.state["postion"][0] = screenWidth - 128
-        elif -self.state["motion"][0] > self.state["postion"][0]:
+            self.state["position"][0] = screenWidth - 128
+        elif -self.state["motion"][0] > self.state["position"][0]:
             self.state["motion"][0] = 0
-            self.state["postion"][0] = 0
-        elif self.state["motion"][1] > screenHeight - (self.state["postion"][1] + 128):
+            self.state["position"][0] = 0
+        elif self.state["motion"][1] > screenHeight - (self.state["position"][1] + 128):
             self.state["motion"][1] = 0
-            self.state["postion"][1] = screenHeight - 128
-        elif -self.state["motion"][1] > self.state["postion"][1]:
+            self.state["position"][1] = screenHeight - 128
+        elif -self.state["motion"][1] > self.state["position"][1]:
             self.state["motion"][1] = 0
-            self.state["postion"][1] = 0
+            self.state["position"][1] = 0
 
         # 碰墙检测
-        if self.state["postion"][0] < 0:
-            self.state["postion"][0] = 0
+        if self.state["position"][0] < 0:
+            self.state["position"][0] = 0
             self.state["motion"][0] = 0
-        elif self.state["postion"][1] < 0:
-            self.state["postion"][1] = 0
+        elif self.state["position"][1] < 0:
+            self.state["position"][1] = 0
             self.state["motion"][1] = 0
-        elif self.state["postion"][0] > screenWidth - 128:
-            self.state["postion"][0] = screenWidth - 128
+        elif self.state["position"][0] > screenWidth - 128:
+            self.state["position"][0] = screenWidth - 128
             self.state["motion"][0] = 0
-        elif self.state["postion"][1] > screenHeight - 128:
-            self.state["postion"][1] = screenHeight - 128
+        elif self.state["position"][1] > screenHeight - 128:
+            self.state["position"][1] = screenHeight - 128
             self.state["motion"][1] = 0
 
         # 摩擦力
         if (
-            self.state["postion"][0] == 0
-            or self.state["postion"][0] == screenWidth - 128
+            self.state["position"][0] == 0
+            or self.state["position"][0] == screenWidth - 128
         ):
             if abs(self.state["motion"][1]) < data["fri"][1]:
                 self.state["motion"][1] = 0
@@ -164,8 +174,8 @@ class Window(QtWidgets.QWidget):
                     (-1) ** (self.state["motion"][1] > 0)
                 )
         elif (
-            self.state["postion"][1] == 0
-            or self.state["postion"][1] == screenHeight - 128
+            self.state["position"][1] == 0
+            or self.state["position"][1] == screenHeight - 128
         ):
             if abs(self.state["motion"][0]) < data["fri"][0]:
                 self.state["motion"][0] = 0
@@ -175,18 +185,18 @@ class Window(QtWidgets.QWidget):
                 )
 
         # 设置位置
-        self.state["postion"][0] += self.state["motion"][0]
-        self.state["postion"][1] += self.state["motion"][1]
+        self.state["position"][0] += self.state["motion"][0]
+        self.state["position"][1] += self.state["motion"][1]
 
-    def mouseMoveEvent(self, event: QtGui.QMouseEvent):
+    def MouseMoveEvent(self, event: QtGui.QMouseEvent):
         if event.buttons() == QtCore.Qt.MouseButton.LeftButton:
-            self.state["postion"] = [
-                event.position().x() - self.mouseOffset[0],
-                event.position().y() - self.mouseOffset[1],
+            self.state["position"] = [
+                event.globalPosition().x() - self.mouseOffset[0],
+                event.globalPosition().y() - self.mouseOffset[1],
             ]
             self.nowMousePos = [
-                event.position().x(),
-                event.position().y(),
+                event.globalPosition().x(),
+                event.globalPosition().y(),
             ]
             self.state["motion"] = [
                 self.nowMousePos[0] - self.lastMousePos[0],
@@ -194,28 +204,30 @@ class Window(QtWidgets.QWidget):
             ]
             self.lastMousePos = self.nowMousePos
 
-    def mousePressEvent(self, event: QtGui.QMouseEvent):
+    def MousePressEvent(self, event: QtGui.QMouseEvent):
         if event.button() == QtCore.Qt.MouseButton.LeftButton:
             self.mouseOffset = [
-                event.position().x() - self.state["postion"][0],
-                event.position().y() - self.state["postion"][1],
+                event.position().x(),
+                event.position().y(),
             ]
             self.state["motion"] = [0, 0]
             self.desktopPet.setCursor(QtCore.Qt.CursorShape.ClosedHandCursor)
             self.physicsTimer.stop()
+        elif event.button() == QtCore.Qt.MouseButton.RightButton:
+            self.showMenu(event.globalPosition().toPoint())
 
-    def mouseReleaseEvent(self, event: QtGui.QMouseEvent):
+    def MouseReleaseEvent(self, event: QtGui.QMouseEvent):
         if event.button() == QtCore.Qt.MouseButton.LeftButton:
             self.desktopPet.setCursor(QtCore.Qt.CursorShape.OpenHandCursor)
             self.physicsTimer.start(20)
 
-    def contextMenuEvent(self, event: QtGui.QContextMenuEvent):
+    def showMenu(self, globalPos):
         # 右键菜单
         def about():
             QtWidgets.QMessageBox.about(
                 self,
                 f"关于{data["name"]}",
-                f"桌宠名字: {data["name"]}\n版本号: v{data["version"]}\n作者: {data["author"]}{"\n"+data["other"] if "other" in data else ""}",
+                f"桌宠名字: {data["name"]}\n版本号: v{data["version"]}\n作者: {data["author"]}",
             )
 
         menuDict = {
@@ -262,7 +274,7 @@ class Window(QtWidgets.QWidget):
                 }
                 self.showBox = True
         menu = menuGenerate(self, menuDict)
-        menu.exec(event.globalPos())
+        menu.exec(globalPos)
 
 
 # 导入数据

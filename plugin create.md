@@ -22,6 +22,7 @@ your-project/
 
 ```py
 from PySide6 import QtWidgets, QtGui, QtCore
+import os
 
 pluginName = "插件在右键菜单的显示名称"
 
@@ -35,9 +36,12 @@ self.state = {
     "motion": self.motion,          # 桌宠动量
     "screenWidth": screenWidth,     # 屏幕宽度
     "screenHeight": screenHeight,   # 屏幕高度
+    "update": [],                   # 在 mainStep(50FPS) 中运行函数的列表
 }
 """
 WINDOW = QtWidgets.QWidget
+
+PATH = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
 
 
 class Template:

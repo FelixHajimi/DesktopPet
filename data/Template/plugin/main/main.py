@@ -36,12 +36,13 @@ class Template:
             self.image.jumpToFrame(0)
         self.image.start()
 
+
 class Test(Template):
     def __init__(self):
         super().__init__()
+
     def create(self, image, mainTimer, physicsTimer, state, window):
         print("Hello My DesktopPet!")
-    
-menu = {
-    "模板": Test
-}
+
+
+menu = {"模板": Test}

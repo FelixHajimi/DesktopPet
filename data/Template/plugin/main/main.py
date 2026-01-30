@@ -46,4 +46,4 @@ class Test(Template):
         print("Hello My DesktopPet!")
 
 
-menu = {"模板": Test}
+menu = {"模板": Test()}

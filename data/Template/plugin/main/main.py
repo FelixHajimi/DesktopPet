@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtGui, QtCore
 import os
 
-pluginName = "修米"
+pluginName = "模板"
 
 IMAGE = QtGui.QMovie
 TIMER = QtCore.QTimer
@@ -37,6 +37,8 @@ class Template:
         self.image.start()
 
 class Test(Template):
+    def __init__(self):
+        super().__init__()
     def create(self, image, mainTimer, physicsTimer, state, window):
         print("Hello My DesktopPet!")
     

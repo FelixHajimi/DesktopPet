@@ -42,6 +42,7 @@ class Test(Template):
         super().__init__()
 
     def create(self, image, mainTimer, physicsTimer, state, window):
+        super().create(image, mainTimer, physicsTimer, state, window)
         print("Hello My DesktopPet!")
 
 

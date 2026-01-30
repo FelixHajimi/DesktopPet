@@ -37,13 +37,23 @@ class Template:
         self.image.start()
 
 
+import logging
+
+logging.basicConfig(
+    filename=f"{PATH}/last.log",
+    level=logging.INFO,
+    format="%(levelname)s: %(asctime)s - %(message)s",
+    encoding="utf-8",
+)
+
+
 class Test(Template):
     def __init__(self):
         super().__init__()
 
     def create(self, image, mainTimer, physicsTimer, state, window):
         super().create(image, mainTimer, physicsTimer, state, window)
-        print("Hello My DesktopPet!")
+        logging.info("Hello My DesktopPet!")
 
 
 menu = {"模板": Test()}

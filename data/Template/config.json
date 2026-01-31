@@ -2,8 +2,7 @@
   "name": "桌宠",
   "version": "0.0",
   "author": "你",
-  "imagePath": "./data/Template/res/",
   "acc": [0, 0.5],
   "fri": [1, 0],
-  "plugin": ["./data/Template/plugin/main/"]
+  "plugin": ["main"]
 }

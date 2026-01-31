@@ -36,7 +36,7 @@ class Window(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle(data["name"])
-        self.setWindowIcon(QtGui.QIcon(f"{data["imagePath"]}/icon.gif"))
+        self.setWindowIcon(QtGui.QIcon(f"./data/{setting["desktopPet"]}/res/icon.gif"))
         self.setWindowFlags(
             QtCore.Qt.WindowType.WindowStaysOnTopHint
             | QtCore.Qt.WindowType.FramelessWindowHint
@@ -118,9 +118,9 @@ class Window(QtWidgets.QWidget):
                 abs(self.state["motion"][0]) <= data["acc"][0]
                 and abs(self.state["motion"][1]) <= data["acc"][1]
             ):
-                self.loadMovie(f"{data["imagePath"]}/basic/stand.gif")
+                self.loadMovie(f"./data/{setting["desktopPet"]}/res/basic/stand.gif")
             else:
-                self.loadMovie(f"{data["imagePath"]}/basic/drop.gif")
+                self.loadMovie(f"./data/{setting["desktopPet"]}/res/basic/drop.gif")
 
         for i in self.state["update"]:
             i()
@@ -279,12 +279,12 @@ class Window(QtWidgets.QWidget):
 
 # 导入数据
 setting = json.load(open("./setting.json", encoding="utf-8"))
-data = json.load(open(setting["desktopPetPath"] + "/config.json", encoding="utf-8"))
+data = json.load(open(f"./data/{setting["desktopPet"]}/config.json", encoding="utf-8"))
 
 pluginList = []
 if "plugin" in data:
     for path in data["plugin"]:
-        spec = util.spec_from_file_location("plugin", path + "/main.py")
+        spec = util.spec_from_file_location("plugin", f"./data/{setting["desktopPet"]}/plugin/{path}/main.py")
         plugin = util.module_from_spec(spec)
         sys.modules["plugin"] = plugin
         spec.loader.exec_module(plugin)

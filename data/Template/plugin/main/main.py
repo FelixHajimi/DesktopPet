@@ -39,13 +39,6 @@ class Template:
 
 import logging
 
-logging.basicConfig(
-    filename=f"{PATH}/last.log",
-    level=logging.INFO,
-    format="%(levelname)s: %(asctime)s - %(message)s",
-    encoding="utf-8",
-)
-
 
 class Test(Template):
     def __init__(self):

@@ -1,13 +1,12 @@
 # 桌面宠物（Desktop Pet）
 
-> 一个可交互、支持插件的桌面宠物，用 Python + PySide6 打造
+> 一个可交互、支持插件的桌面宠物，使用 PySide6 制作
 
 ## 特性
 
 - 🎮 **物理引擎**：重力、碰撞、摩擦力模拟，行为自然
-- 🖱️ **交互操作**：点击拖拽、抛掷、暂停
+- 🖱️ **交互操作**：点击拖拽、抛掷
 - 🧩 **插件系统**：支持动态加载插件，扩展功能（如表情切换、语音、小游戏等）
-- 🧪 **调试模式**：可显示碰撞箱，方便开发
 - 🛠️ **无边框置顶窗口**：不干扰工作，始终在桌面最上层
 - 📦 **配置驱动**：通过 `config.json` 和 `setting.json` 配置外观与行为
 
@@ -44,7 +43,7 @@ your-project/
 ### 示例 setting.json:
 ```json
 {
-  "desktopPetPath": "data/my_cat",        // 宠物配置路径
+  "desktopPetPath": "my_cat",             // 宠物目录名称
   "debug": false                          // 调试模式
 }
 ```
@@ -55,12 +54,11 @@ your-project/
   "name": "小橘",                         // 宠物名称
   "version": "1.0.0",                    // 宠物版本
   "author": "ABC",                       // 作者
-  "imagePath": "data/my_cat/res/",       // 图片路径
   "acc": [0.3, 0.5],                     // 重力 (x, y)
   "fri": [0.8, 0.8],                     // 摩擦力 (x, y，仅限于墙体)
-  "plugin": [                            // 加载的插件目录
-    "data/my_cats/plugin/main"
-    ]
+  "plugin": [                            // 加载插件列表
+    "main"                               // 加载插件目录名称
+  ]
 }
 ```
 
@@ -83,17 +81,6 @@ python main.py
   - ...
   - 开/关碰撞箱（调试模式下）
 - **插件自动启动**：若插件标记 `__autoStart__ = True`，程序启动时会自动加载
-
-## 🔌 插件开发（高级）
-
-插件需包含 `main.py`，并定义：
-- `pluginName`: 插件名称
-- `menu`: 菜单项字典，格式为 `{显示名: 对象}`
-- 每个菜单项对象需有：
-  - `create(...)` 方法（接收 image、timers、state、window 等参数）
-  - 可选 `__autoStart__ = True` 实现自启动
-
-> 插件可动态修改宠物动画、行为逻辑、添加新交互等。
 
 ## ⚠️ 免责声明
 

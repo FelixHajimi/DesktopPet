@@ -3,7 +3,18 @@ from PySide6 import QtGui
 from PySide6 import QtCore
 import sys
 import json
+import logging
+import pprint
 from importlib import util
+
+
+# 初始化配置
+logging.basicConfig(
+    filename="./last.log",
+    encoding="utf-8",
+    level=logging.DEBUG,
+    format="[%(levelname)s] <%(pathname)s> (%(asctime)s) - %(message)s",
+)
 
 
 # 创建菜单工具
@@ -31,6 +42,21 @@ def menuGenerate(master: QtWidgets.QWidget, structure: dict):
     return menu
 
 
+# 日志工具
+def createLog(msg: str, level: int = 1):
+    if setting["debug"]:
+        if level == 0:
+            logging.debug(msg)
+        elif level == 1:
+            logging.info(msg)
+        elif level == 2:
+            logging.warning(msg)
+        elif level == 3:
+            logging.error(msg)
+        elif level == 4:
+            logging.critical(msg)
+
+
 # 定义窗口
 class Window(QtWidgets.QWidget):
     def __init__(self):
@@ -42,6 +68,7 @@ class Window(QtWidgets.QWidget):
             | QtCore.Qt.WindowType.FramelessWindowHint
         )
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
+        createLog("窗口初始化完毕")
 
         self.nowMousePos = [0, 0]
         self.lastMousePos = [0, 0]
@@ -78,6 +105,7 @@ class Window(QtWidgets.QWidget):
             "screenHeight": screenHeight,
             "update": [],
         }
+        createLog("参数配置完毕")
 
         # 自启动判断
         _ = []
@@ -98,8 +126,15 @@ class Window(QtWidgets.QWidget):
 
                 if getattr(entry, "__autoStart__"):
                     _.append(itemFunc())
+                    createLog(
+                        f"桌宠 {plugin.pluginName} 插件的 {displayName} 功能已添加置自启动"
+                    )
         for i in _:
-            i()
+            try:
+                i()
+                createLog(f"{i} 自启动函数已运行")
+            except Exception as error:
+                createLog(f"{i} 自启动函数运行错误:{error}", 3)
 
     def loadMovie(self, path: str):
         # 加载动画
@@ -123,7 +158,10 @@ class Window(QtWidgets.QWidget):
                 self.loadMovie(f"./data/{setting["desktopPet"]}/res/basic/drop.gif")
 
         for i in self.state["update"]:
-            i()
+            try:
+                i()
+            except Exception as error:
+                createLog(f"{i} 循环函数运行错误:{error}", 3)
 
         self.desktopPet.move(self.state["position"][0], self.state["position"][1])
 
@@ -234,6 +272,7 @@ class Window(QtWidgets.QWidget):
             "退出": {"__type__": "command", "__func__": self.close},
             f"关于{data["name"]}": {"__type__": "command", "__func__": about},
         }
+        createLog("已创建基础右键菜单")
 
         # 导入插件
         for plugin in pluginList:
@@ -243,13 +282,19 @@ class Window(QtWidgets.QWidget):
 
                 def itemFunc(f=entry):
                     def _():
-                        getattr(f, "create")(
-                            self.image,
-                            self.mainTimer,
-                            self.physicsTimer,
-                            self.state,
-                            self,
-                        )
+                        try:
+                            getattr(f, "create")(
+                                self.image,
+                                self.mainTimer,
+                                self.physicsTimer,
+                                self.state,
+                                self,
+                            )
+                        except Exception as error:
+                            createLog(
+                                f"桌宠 {plugin.pluginName} 插件的 {displayName}:{getattr(f, "create")} 功能错误:{error}",
+                                3,
+                            )
 
                     return _
 
@@ -257,6 +302,9 @@ class Window(QtWidgets.QWidget):
                     "__type__": "command",
                     "__func__": itemFunc(),
                 }
+                createLog(
+                    f"桌宠 {plugin.pluginName} 插件的 {displayName} 功能已添加"
+                )
 
         if setting["debug"]:
             if self.showBox:
@@ -273,18 +321,43 @@ class Window(QtWidgets.QWidget):
                     ),
                 }
                 self.showBox = True
+            menuDict["输出所有参数"] = {
+                "__type__": "command",
+                "__func__": lambda: createLog(
+                    "\n" + pprint.pformat(globals(), 2, sort_dicts=False)
+                ),
+            }
         menu = menuGenerate(self, menuDict)
         menu.exec(globalPos)
+        createLog(f"{setting["desktopPet"]}:{data["name"]} 桌宠右键菜单已显示")
 
 
 # 导入数据
 setting = json.load(open("./setting.json", encoding="utf-8"))
+for key in ["desktopPet", "debug"]:
+    if not key in setting:
+        logging.error(f"setting.json 文件没有 {key} 键!")
+        exit()
+
 data = json.load(open(f"./data/{setting["desktopPet"]}/config.json", encoding="utf-8"))
+for key in [
+    "name",
+    "version",
+    "author",
+    "acc",
+    "fri",
+    "plugin",
+]:
+    if not key in data:
+        logging.error(f"config.json 文件没有 {key} 键!")
+        exit()
 
 pluginList = []
 if "plugin" in data:
     for path in data["plugin"]:
-        spec = util.spec_from_file_location("plugin", f"./data/{setting["desktopPet"]}/plugin/{path}/main.py")
+        spec = util.spec_from_file_location(
+            "plugin", f"./data/{setting["desktopPet"]}/plugin/{path}/main.py"
+        )
         plugin = util.module_from_spec(spec)
         sys.modules["plugin"] = plugin
         spec.loader.exec_module(plugin)

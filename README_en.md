@@ -1,119 +1,99 @@
 # Desktop Pet
 
-A cute, interactive, and plugin-enabled desktop pet built with Python + PySide6.
+> An interactive, plugin-supported desktop pet made with PySide6
 
 ## Features
 
-🎮 **Physics Engine**: Simulates gravity, collision, and friction for natural motion  
-🖱️ **Interactive Controls**: Drag, throw, and pause the pet  
-🧩 **Plugin System**: Extend functionality via plugins (e.g., expression switching, voice, mini-games)  
-🧪 **Debug Mode**: Toggle collision boxes for development  
-🛠️ **Borderless & Always-on-Top Window**: Stays above all apps without interfering  
-📦 **Configurable**: Customize appearance and behavior via `config.json` and `setting.json`
+- 🎮 **Physics Engine**: Simulates gravity, collisions, and friction, making behavior natural
+- 🖱️ **Interaction Operations**: Click and drag, throw
+- 🧩 **Plugin System**: Supports dynamic loading of plugins to extend functionality (such as expression switching, voice, mini-games, etc.)
+- 🛠️ **Borderless Topmost Window**: Does not interfere with work and remains at the top of the desktop
+- 📦 **Configuration Driven**: Configures appearance and behavior through `config.json` and `setting.json`
 
 ## 🚀 Quick Start
 
-### Requirements
+### Dependency Requirements
 
 - Python 3.8+
 - PySide6
-- System support for animated GIFs
+- A system that supports GIF animations
 
 ### Install Dependencies
 
-```sh
+```bash
 pip install PySide6
 ```
 
-### Required Directory Structure
+### Directory Requirements
 
-Your project root should contain:
+Your project root directory should include the following files:
 
-```txt
+```text
 your-project/
-├── main.py                 # Main program
-├── setting.json            # Startup settings (debug mode, pet config path)
-└── [your_pet_folder]/      # e.g., my_cat
-    ├── config.json         # Pet configuration (name, author, icon, plugins, etc.)
-    ├── icon.gif            # Pet icon
+├── main.py                 Main program
+├── setting.json            Startup settings (currently can modify debug mode, pet configuration path)
+└── [Your pet folder]/        For example: my_cat
+    ├── config.json         Pet configuration (name, author, icon, plugins, etc.)
+    ├── icon.gif            Pet icon
     └── basic/
-        ├── stand.gif       # Idle animation
-        └── drop.gif        # Falling animation
+        ├── stand.gif       Standing animation
+        └── drop.gif        Dropping animation
 ```
 
-### Example `setting.json`:
-
+### Example setting.json:
 ```json
 {
-  "desktopPetPath": "data/my_cat",
-  "debug": false
+  "desktopPetPath": "my_cat",             // Pet directory name
+  "debug": false                          // Debug mode
 }
 ```
 
-### Example `config.json`:
-
+### Example config.json:
 ```json
 {
-  "name": "小橘",
-  "version": "1.0.0",
-  "author": "ABC",
-  "imagePath": "data/my_cat/res/",
-  "acc": [0.3, 0.5],
-  "fri": [0.8, 0.8],
-  "plugin": ["data/my_cats/plugin/main"]
+  "name": "Xiao Ju",                      // Pet name
+  "version": "1.0.0",                     // Pet version
+  "author": "ABC",                        // Author
+  "acc": [0.3, 0.5],                      // Gravity (x, y)
+  "fri": [0.8, 0.8],                      // Friction (x, y, only on walls)
+  "plugin": [                             // List of plugins to load
+    "main"                                // Plugin directory name to load
+  ]
 }
 ```
 
-### Run the Program
+### Running the Program
 
-```sh
+```bash
 python main.py
 ```
 
-The program runs in a full-screen transparent window, and the pet appears at the bottom center of the screen.
+The program will run as a full-screen transparent window, with the pet appearing at the bottom center of the screen.
 
-## 🎮 Usage
+## 🎮 Usage Instructions
 
-- **Left-click & drag**: Move the pet; release to throw it with momentum
-- **Right-click**: Open context menu
+- **Left-click and drag**: Move the pet, releasing it will throw it based on your throw speed
+- **Right-click**: Open the menu
   - Exit
   - About
-  - Plugin 1 (if loaded)
-  - Plugin 2 (if loaded)
+  - Plugin 1 (if available)
+  - Plugin 2 (if available)
   - ...
-  - Toggle Collision Box (only visible in debug mode)
-
-## Auto-start Plugins
-
-Plugins marked with `__autoStart__ = True` will be loaded automatically on startup.
-
-## 🔌 Plugin Development (Advanced)
-
-A plugin must include a `main.py` file that defines:
-
-- `pluginName`: Plugin name
-- `menu`: Menu item dictionary in the format `{display_name: object}`
-
-Each menu item object must have:
-
-- A `create(...)` method that receives parameters such as `image`, `timers`, `state`, and `window`
-- (Optional) `__autoStart__ = True` to enable auto-loading on startup
-
-Plugins can dynamically change the pet’s animation, behavior logic, or add new interactions.
+  - Toggle collision box (available in debug mode)
+- **Plugins Auto-Start**: If the plugin is marked `__autoStart__ = True`, it will be automatically loaded when the program starts
 
 ## ⚠️ Disclaimer
 
-This project is licensed under the MIT License.  
-You are free to modify, distribute, and use it commercially, provided you retain the original author information in the source code.  
-Use at your own risk. The author is not liable for any direct or indirect damages.
+> This project is licensed under the **MIT License**.  
+> **Feel free to modify, distribute, and use commercially**, but please retain the original author's information in the code.  
+> **Use this software at your own risk; the author is not responsible for any direct or indirect losses.**
 
 ## 📄 License
 
-This project uses the MIT License — see the [LICENSE](./LICENSE) file for details.
+This project uses the MIT License —— see the [`LICENSE`](./LICENSE) file for details.
 
-## 🙇 Special Thanks
+## 🙇‍ Special Thanks
 
-Artist:
-
-- 残月
-- 星源
+### Artists:
+- Chan Yue
+- Xing Yuan

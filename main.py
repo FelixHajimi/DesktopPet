@@ -76,7 +76,6 @@ class Window(QtWidgets.QWidget):
         self.position = [(screenWidth - 128) // 2, screenHeight - 128]
         self.motion = [0, 0]
         self.pause = False
-        self.pressed = False
 
         self.showBox = False
 

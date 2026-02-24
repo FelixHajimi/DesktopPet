@@ -47,6 +47,7 @@ class Test(Template):
     def create(self, image, mainTimer, physicsTimer, state, window):
         super().create(image, mainTimer, physicsTimer, state, window)
         logging.info("Hello My DesktopPet!")
+        QtWidgets.QMessageBox.information(window, "TEST", "Hello My DesktopPet!")
 
 
 menu = {"模板": Test()}

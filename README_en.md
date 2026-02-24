@@ -1,99 +1,53 @@
 # Desktop Pet
 
-> An interactive, plugin-supported desktop pet made with PySide6
+## Getting Started
 
-## Features
-
-- 🎮 **Physics Engine**: Simulates gravity, collisions, and friction, making behavior natural
-- 🖱️ **Interaction Operations**: Click and drag, throw
-- 🧩 **Plugin System**: Supports dynamic loading of plugins to extend functionality (such as expression switching, voice, mini-games, etc.)
-- 🛠️ **Borderless Topmost Window**: Does not interfere with work and remains at the top of the desktop
-- 📦 **Configuration Driven**: Configures appearance and behavior through `config.json` and `setting.json`
-
-## 🚀 Quick Start
-
-### Dependency Requirements
+### Dependencies
 
 - Python 3.8+
 - PySide6
-- A system that supports GIF animations
+- System with GIF animation support
 
-### Install Dependencies
+### Directory Structure
 
-```bash
-pip install PySide6
-```
-
-### Directory Requirements
-
-Your project root directory should include the following files:
+Your project root directory should contain the following files:
 
 ```text
 your-project/
-├── main.py                 Main program
-├── setting.json            Startup settings (currently can modify debug mode, pet configuration path)
-└── [Your pet folder]/        For example: my_cat
-    ├── config.json         Pet configuration (name, author, icon, plugins, etc.)
-    ├── icon.gif            Pet icon
-    └── basic/
-        ├── stand.gif       Standing animation
-        └── drop.gif        Dropping animation
+├── main.py                       Main program
+├── setting.json                  Startup configuration
+└── data/                         Folder for all desktop pets
+    ├── [pet folder]/             Example: my_cat
+    │   ├── config.json            Pet configuration (name, version, author, plugins, etc.)
+    │   ├── plugin/                Optional, directory for pet-specific plugins
+    │   │   ├── [plugin1 folder]/  Example: AI-Cat
+    │   │   │   ├── ...           Other resources
+    │   │   │   └── main.py       Entry program
+    │   │   └── ...               Other plugins
+    │   └─res/                    Pet resources
+    │     ├── icon.gif            Pet icon
+    │     └── basic/
+    │         ├── drop.gif        Falling animation
+    │         └── stand.gif       Idle animation
+    └── ...
 ```
 
 ### Example setting.json:
 ```json
 {
-  "desktopPetPath": "my_cat",             // Pet directory name
-  "debug": false                          // Debug mode
+  "desktopPetPath": "my_cat",
+  "debug": false
 }
 ```
 
 ### Example config.json:
 ```json
 {
-  "name": "Xiao Ju",                      // Pet name
-  "version": "1.0.0",                     // Pet version
-  "author": "ABC",                        // Author
-  "acc": [0.3, 0.5],                      // Gravity (x, y)
-  "fri": [0.8, 0.8],                      // Friction (x, y, only on walls)
-  "plugin": [                             // List of plugins to load
-    "main"                                // Plugin directory name to load
-  ]
+  "name": "Xiaoju",
+  "version": "1.0.0",
+  "author": "ABC",
+  "acc": [0.3, 0.5],
+  "fri": [0.8, 0.8],
+  "plugin": [ "main" ]
 }
 ```
-
-### Running the Program
-
-```bash
-python main.py
-```
-
-The program will run as a full-screen transparent window, with the pet appearing at the bottom center of the screen.
-
-## 🎮 Usage Instructions
-
-- **Left-click and drag**: Move the pet, releasing it will throw it based on your throw speed
-- **Right-click**: Open the menu
-  - Exit
-  - About
-  - Plugin 1 (if available)
-  - Plugin 2 (if available)
-  - ...
-  - Toggle collision box (available in debug mode)
-- **Plugins Auto-Start**: If the plugin is marked `__autoStart__ = True`, it will be automatically loaded when the program starts
-
-## ⚠️ Disclaimer
-
-> This project is licensed under the **MIT License**.  
-> **Feel free to modify, distribute, and use commercially**, but please retain the original author's information in the code.  
-> **Use this software at your own risk; the author is not responsible for any direct or indirect losses.**
-
-## 📄 License
-
-This project uses the MIT License —— see the [`LICENSE`](./LICENSE) file for details.
-
-## 🙇‍ Special Thanks
-
-### Artists:
-- Chan Yue
-- Xing Yuan

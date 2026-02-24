@@ -174,31 +174,17 @@ class Window(QtWidgets.QWidget):
 
         # 速度预处理
         if self.state["motion"][0] > screenWidth - (self.state["position"][0] + 128):
-            self.state["motion"][0] = 0
+            self.state["motion"][0] = (-self.state["motion"][0])*(config["ela"][1]/100)
             self.state["position"][0] = screenWidth - 128
         elif -self.state["motion"][0] > self.state["position"][0]:
-            self.state["motion"][0] = 0
+            self.state["motion"][0] = (-self.state["motion"][0])*(config["ela"][1]/100)
             self.state["position"][0] = 0
         elif self.state["motion"][1] > screenHeight - (self.state["position"][1] + 128):
-            self.state["motion"][1] = 0
+            self.state["motion"][1] = (-self.state["motion"][1])*(config["ela"][0]/100)
             self.state["position"][1] = screenHeight - 128
         elif -self.state["motion"][1] > self.state["position"][1]:
-            self.state["motion"][1] = 0
+            self.state["motion"][1] = (-self.state["motion"][1])*(config["ela"][0]/100)
             self.state["position"][1] = 0
-
-        # 碰墙检测
-        if self.state["position"][0] < 0:
-            self.state["position"][0] = 0
-            self.state["motion"][0] = 0
-        elif self.state["position"][1] < 0:
-            self.state["position"][1] = 0
-            self.state["motion"][1] = 0
-        elif self.state["position"][0] > screenWidth - 128:
-            self.state["position"][0] = screenWidth - 128
-            self.state["motion"][0] = 0
-        elif self.state["position"][1] > screenHeight - 128:
-            self.state["position"][1] = screenHeight - 128
-            self.state["motion"][1] = 0
 
         # 摩擦力
         if (

@@ -61,7 +61,7 @@ def createLog(msg: str, level: int = 1):
 class Window(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle(data["name"])
+        self.setWindowTitle(config["name"])
         self.setWindowIcon(QtGui.QIcon(f"./data/{setting["desktopPet"]}/res/icon.gif"))
         self.setWindowFlags(
             QtCore.Qt.WindowType.WindowStaysOnTopHint
@@ -150,8 +150,8 @@ class Window(QtWidgets.QWidget):
         self.position = self.state["position"]
         if not self.pause:
             if (
-                abs(self.state["motion"][0]) <= data["acc"][0]
-                and abs(self.state["motion"][1]) <= data["acc"][1]
+                abs(self.state["motion"][0]) <= config["acc"][0]
+                and abs(self.state["motion"][1]) <= config["acc"][1]
             ):
                 self.loadMovie(f"./data/{setting["desktopPet"]}/res/basic/stand.gif")
             else:
@@ -169,8 +169,8 @@ class Window(QtWidgets.QWidget):
         # 物理时钟循环
 
         # 重力模拟
-        self.state["motion"][0] += data["acc"][0]
-        self.state["motion"][1] += data["acc"][1]
+        self.state["motion"][0] += config["acc"][0]
+        self.state["motion"][1] += config["acc"][1]
 
         # 速度预处理
         if self.state["motion"][0] > screenWidth - (self.state["position"][0] + 128):
@@ -205,20 +205,20 @@ class Window(QtWidgets.QWidget):
             self.state["position"][0] == 0
             or self.state["position"][0] == screenWidth - 128
         ):
-            if abs(self.state["motion"][1]) < data["fri"][1]:
+            if abs(self.state["motion"][1]) < config["fri"][1]:
                 self.state["motion"][1] = 0
             else:
-                self.state["motion"][1] += data["fri"][1] * (
+                self.state["motion"][1] += config["fri"][1] * (
                     (-1) ** (self.state["motion"][1] > 0)
                 )
         elif (
             self.state["position"][1] == 0
             or self.state["position"][1] == screenHeight - 128
         ):
-            if abs(self.state["motion"][0]) < data["fri"][0]:
+            if abs(self.state["motion"][0]) < config["fri"][0]:
                 self.state["motion"][0] = 0
             else:
-                self.state["motion"][0] += data["fri"][0] * (
+                self.state["motion"][0] += config["fri"][0] * (
                     (-1) ** (self.state["motion"][0] > 0)
                 )
 
@@ -264,13 +264,13 @@ class Window(QtWidgets.QWidget):
         def about():
             QtWidgets.QMessageBox.about(
                 self,
-                f"关于{data["name"]}",
-                f"桌宠名字: {data["name"]}\n版本号: v{data["version"]}\n作者: {data["author"]}",
+                f"关于{config["name"]}",
+                f"桌宠名字: {config["name"]}\n版本号: v{config["version"]}\n作者: {config["author"]}",
             )
 
         menuDict = {
             "退出": {"__type__": "command", "__func__": self.close},
-            f"关于{data["name"]}": {"__type__": "command", "__func__": about},
+            f"关于{config["name"]}": {"__type__": "command", "__func__": about},
         }
         createLog("已创建基础右键菜单")
 
@@ -329,7 +329,7 @@ class Window(QtWidgets.QWidget):
             }
         menu = menuGenerate(self, menuDict)
         menu.exec(globalPos)
-        createLog(f"{setting["desktopPet"]}:{data["name"]} 桌宠右键菜单已显示")
+        createLog(f"{setting["desktopPet"]}:{config["name"]} 桌宠右键菜单已显示")
 
 
 # 导入数据
@@ -339,7 +339,7 @@ for key in ["desktopPet", "debug"]:
         logging.error(f"setting.json 文件没有 {key} 键!")
         exit()
 
-data = json.load(open(f"./data/{setting["desktopPet"]}/config.json", encoding="utf-8"))
+config = json.load(open(f"./data/{setting["desktopPet"]}/config.json", encoding="utf-8"))
 for key in [
     "name",
     "version",
@@ -348,13 +348,13 @@ for key in [
     "fri",
     "plugin",
 ]:
-    if not key in data:
+    if not key in config:
         logging.error(f"config.json 文件没有 {key} 键!")
         exit()
 
 pluginList = []
-if "plugin" in data:
-    for path in data["plugin"]:
+if "plugin" in config:
+    for path in config["plugin"]:
         spec = util.spec_from_file_location(
             "plugin", f"./data/{setting["desktopPet"]}/plugin/{path}/main.py"
         )

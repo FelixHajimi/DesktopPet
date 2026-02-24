@@ -18,9 +18,9 @@ your-project/
 ├── setting.json                  Startup configuration
 └── data/                         Folder for all desktop pets
     ├── [pet folder]/             Example: my_cat
-    │   ├── config.json            Pet configuration (name, version, author, plugins, etc.)
-    │   ├── plugin/                Optional, directory for pet-specific plugins
-    │   │   ├── [plugin1 folder]/  Example: AI-Cat
+    │   ├── config.json           Pet configuration (name, version, author, plugins, etc.)
+    │   ├── plugin/               Optional, directory for pet-specific plugins
+    │   │   ├── [plugin1 folder]/ Example: AI-Cat
     │   │   │   ├── ...           Other resources
     │   │   │   └── main.py       Entry program
     │   │   └── ...               Other plugins

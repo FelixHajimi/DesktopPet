@@ -111,7 +111,7 @@ class Window(QtWidgets.QWidget):
 
                 def itemFunc(f=entry):
                     def _():
-                        getattr(f, "create")(
+                        getattr(f, "enter")(
                             self.image,
                             self.mainTimer,
                             self.physicsTimer,
@@ -274,7 +274,7 @@ class Window(QtWidgets.QWidget):
                 def itemFunc(f=entry):
                     def _():
                         try:
-                            getattr(f, "create")(
+                            getattr(f, "enter")(
                                 self.image,
                                 self.mainTimer,
                                 self.physicsTimer,

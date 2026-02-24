@@ -72,11 +72,9 @@ class Window(QtWidgets.QWidget):
 
         self.nowMousePos = [0, 0]
         self.lastMousePos = [0, 0]
-
         self.position = [(screenWidth - 128) // 2, screenHeight - 128]
         self.motion = [0, 0]
         self.pause = False
-
         self.showBox = False
 
         self.mainTimer = QtCore.QTimer(self)
@@ -173,16 +171,24 @@ class Window(QtWidgets.QWidget):
 
         # 速度预处理
         if self.state["motion"][0] > screenWidth - (self.state["position"][0] + 128):
-            self.state["motion"][0] = (-self.state["motion"][0])*(config["ela"][1]/100)
+            self.state["motion"][0] = (-self.state["motion"][0]) * (
+                config["ela"][1] / 100
+            )
             self.state["position"][0] = screenWidth - 128
         elif -self.state["motion"][0] > self.state["position"][0]:
-            self.state["motion"][0] = (-self.state["motion"][0])*(config["ela"][1]/100)
+            self.state["motion"][0] = (-self.state["motion"][0]) * (
+                config["ela"][1] / 100
+            )
             self.state["position"][0] = 0
         elif self.state["motion"][1] > screenHeight - (self.state["position"][1] + 128):
-            self.state["motion"][1] = (-self.state["motion"][1])*(config["ela"][0]/100)
+            self.state["motion"][1] = (-self.state["motion"][1]) * (
+                config["ela"][0] / 100
+            )
             self.state["position"][1] = screenHeight - 128
         elif -self.state["motion"][1] > self.state["position"][1]:
-            self.state["motion"][1] = (-self.state["motion"][1])*(config["ela"][0]/100)
+            self.state["motion"][1] = (-self.state["motion"][1]) * (
+                config["ela"][0] / 100
+            )
             self.state["position"][1] = 0
 
         # 摩擦力
@@ -287,9 +293,7 @@ class Window(QtWidgets.QWidget):
                     "__type__": "command",
                     "__func__": itemFunc(),
                 }
-                createLog(
-                    f"桌宠 {plugin.pluginName} 插件的 {displayName} 功能已添加"
-                )
+                createLog(f"桌宠 {plugin.pluginName} 插件的 {displayName} 功能已添加")
 
         if setting["debug"]:
             if self.showBox:
@@ -324,7 +328,9 @@ for key in ["desktopPet", "debug"]:
         logging.error(f"setting.json 文件没有 {key} 键!")
         exit()
 
-config = json.load(open(f"./data/{setting["desktopPet"]}/config.json", encoding="utf-8"))
+config = json.load(
+    open(f"./data/{setting["desktopPet"]}/config.json", encoding="utf-8")
+)
 for key in [
     "name",
     "version",

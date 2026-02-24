@@ -15,7 +15,7 @@ class Template:
     def __init__(self):
         self.__autoStart__ = False
 
-    def create(
+    def enter(
         self,
         image: IMAGE,
         mainTimer: TIMER,
@@ -44,8 +44,8 @@ class Test(Template):
     def __init__(self):
         super().__init__()
 
-    def create(self, image, mainTimer, physicsTimer, state, window):
-        super().create(image, mainTimer, physicsTimer, state, window)
+    def enter(self, image, mainTimer, physicsTimer, state, window):
+        super().enter(image, mainTimer, physicsTimer, state, window)
         logging.info("Hello My DesktopPet!")
         QtWidgets.QMessageBox.information(window, "TEST", "Hello My DesktopPet!")
 

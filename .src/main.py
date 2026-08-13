@@ -78,18 +78,18 @@ def createLog(msg: str, level: int = 0):
     | 3 | error |
     | 4 | critical |
     """
-    if level >= setting.logLevel and level == 0:
+    if level == 0:
         logging.debug(msg)
-    if level >= setting.logLevel and level == 1:
+    if level == 1:
         logging.info(msg)
-    if level >= setting.logLevel and level == 2:
+    if level == 2:
         logging.warning(msg)
-    if level >= setting.logLevel and level == 3:
+    if level == 3:
         logging.error(msg)
         QtWidgets.QMessageBox.critical(
             None, "错误", f"桌宠启动过程中出现错误，具体信息查看日志\n\n{msg}"
         )
-    if level >= setting.logLevel and level == 4:
+    if level == 4:
         logging.critical(msg)
         sys.exit()
 
@@ -206,6 +206,8 @@ class Window(QtWidgets.QWidget):
             "update": dict(),
             "screenWidth": screenWidth,
             "screenHeight": screenHeight,
+            "width": self.WIDTH,
+            "height": self.HEIGHT,
         }
         createLog(tran.run("program.ready", "Program is ready"))
 
@@ -433,7 +435,7 @@ class Window(QtWidgets.QWidget):
         # 导入插件
         # Import Plugin
         for plugin in pluginList:
-            menuDict[plugin.pluginName] = plugin.menu
+            menuDict[plugin.pluginName] = plugin.menu | {"_type": "/"}
         menu = menuGenerate(self, menuDict)
         menu.exec(globalPos)
         createLog(
@@ -451,27 +453,24 @@ PATH = os.path.dirname(__file__)
 # 导入数据
 # Import Data
 setting = Setting(**json.load(open(f"{PATH}/setting.json", encoding="utf-8")))
-logging.debug("Setting loaded")
 config = DesktopPetConfig(
     **json.load(
         open(f"{setting.dataDir}/{setting.desktopPet}/config.json", encoding="utf-8")
     )
 )
-logging.debug("Config loaded")
 
 # 日志配置
 # Log Configuration
 logging.basicConfig(
     filename=f"{setting.logPath}",
     encoding="utf-8",
-    level=logging.DEBUG,
+    level=(setting.logLevel + 1) * 10,
     format="[%(levelname)s] <%(pathname)s> (%(asctime)s) - %(message)s",
 )
 
 tran = Translate(
     json.load(open(f"{PATH}/languageMap.json", encoding="utf-8")), setting.language
 )
-logging.debug("Translate object created")
 
 pluginList = []
 for path in config.plugin:
@@ -487,13 +486,14 @@ for path in config.plugin:
             pluginList.append(plugin)
             plugin.menu
             plugin.pluginName
-            logging.debug(f"Plugin `{path}` loaded")
+            createLog(f"Plugin `{path}` loaded", 0)
         except FileNotFoundError as error:
-            logging.error(
-                f"Failed to load the plugin in the directory of `{path}`, please check if the name in `config.json` is correct"
+            createLog(
+                f"Failed to load the plugin in the directory of `{path}`, please check if the name in `config.json` is correct",
+                3,
             )
         except NameError as error:
-            logging.error(f"Plugin name error: {error}")
+            createLog(f"Plugin name error: {error}", 3)
 
 
 screenWidth = app.primaryScreen().size().width()

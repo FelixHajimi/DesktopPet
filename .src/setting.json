@@ -3,6 +3,6 @@
   "language": "zh-cn",
   "dataDir": "./data",
   "logPath": "./last.log",
-  "logLevel": 0,
+  "logLevel": 2,
   "imageSize": [128, 128]
 }

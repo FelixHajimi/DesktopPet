@@ -1,4 +1,13 @@
 {
+  "console.menu": {
+    "en-us": "Console",
+    "fr-fr": "Console",
+    "ja-jp": "コンソール",
+    "ko-kr": "콘솔",
+    "ru-ru": "Консоль",
+    "zh-cn": "控制台",
+    "zh-tw": "控制台"
+  },
   "program.menu.about.text": {
     "en-us": "f\"Desktop pet name: `{config.name}`\\nVersion: v`{config.version}`\\nAuthor: `{config.author}`\"",
     "fr-fr": "f\"Nom du pet : `{config.name}`\\nVersion : v`{config.version}`\\nAuteur : `{config.author}`\"",

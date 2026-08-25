@@ -154,6 +154,41 @@ class DesktopPetConfig:
     plugin: list[str] = field(default_factory=list)
 
 
+# 定义控制台窗口
+# Define Console Window
+class Console(QtWidgets.QInputDialog):
+    def __init__(self):
+        super().__init__()
+        self.whiteList = ["print(", "#"]
+
+    def writeCode(self) -> str | None:
+        code = self.getMultiLineText(None, "Console", "Python")
+        if code[1]:
+            return code[0]
+        else:
+            return
+
+    def checkWhiteList(self, code: str) -> bool:
+        for item in self.whiteList:
+            if code.startswith(item):
+                return True
+        return False
+
+    def execCode(self):
+        # 控制台命名空间
+        # Console Name Space
+
+        code = self.writeCode()
+        if not code:
+            return
+        for line in code.split("\n"):
+            if self.checkWhiteList(line):
+                try:
+                    exec(line)
+                except Exception as error:
+                    createLog(error, 3)
+
+
 # 定义窗口
 # Define Window
 class Window(QtWidgets.QWidget):
@@ -415,6 +450,10 @@ class Window(QtWidgets.QWidget):
                 "_func": self.deactivate,
             },
             next(self.sep_iter): {"_type": "-"},
+            tran.run("console.menu", "Console"): {
+                "_type": "$",
+                "_func": lambda: console.execCode(),
+            },
             eval(tran.run("program.menu.about.title", 'f"About `{config.name}`"')): {
                 "_type": "$",
                 "_func": lambda: QtWidgets.QMessageBox.about(
@@ -498,8 +537,7 @@ for path in config.plugin:
 
 screenWidth = app.primaryScreen().size().width()
 screenHeight = app.primaryScreen().size().height()
-
+console = Console()
 window = Window()
 window.show()
-
 sys.exit(app.exec())

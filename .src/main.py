@@ -5,7 +5,7 @@ import os
 from dataclasses import dataclass, field
 from importlib import util
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtWidgets, QtGui, QtCore
 
 app = QtWidgets.QApplication(sys.argv)
 

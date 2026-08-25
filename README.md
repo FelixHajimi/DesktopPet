@@ -41,19 +41,6 @@ A lightweight desktop pet engine that supports physics simulation, plugin extens
 │        ├─ drop.gif          Falling animation
 │        ├─ icon.gif          Window icon
 │        └─ stand.gif         Standing animation
-├─ docs/                      Documentation directory
-│  ├─ 中文/
-│  │  ├─ 启动配置.md
-│  │  ├─ 桌宠配置.md
-│  │  ├─ 角色包制作.md
-│  │  ├─ 插件开发.md
-│  │  └─ 常见问题.md
-│  └─ English/
-│     ├─ StartupConfiguration.md
-│     ├─ PetConfiguration.md
-│     ├─ PetPackageCreation.md
-│     ├─ Plugin.md
-│     └─ FrequentlyAskedQuestions.md
 ├─ languageMap.json           Internationalization language map
 ├─ main.py                    Main program
 ├─ setting.json               Launch configuration
@@ -105,8 +92,6 @@ If successful, the pet assets in `res/` will be displayed.
 | `logPath` | Log file path |
 | `logLevel` | Log output level |
 
-See [`docs/English/StartupConfiguration.md`](./docs/English/StartupConfiguration.md) for details.
-
 #### Pet Configuration (`data/[pet_name]/config.json`)
 
 ```json
@@ -140,19 +125,3 @@ See [`docs/English/StartupConfiguration.md`](./docs/English/StartupConfiguration
 | `fri` | Friction | `top/bottom=1~5`, `left/right=0` |
 | `ela` | Elasticity | `bottom=5`, `left/right=10` |
 | `plugin` | Plugin list to load | `[]` |
-
-See [`docs/English/PetConfiguration.md`](./docs/English/PetConfiguration.md) for details.
-
----
-
-## Documentation
-
-For full documentation, please refer to the `docs/` directory:
-
-| Document |
-|---|
-| [`docs/English/StartupConfiguration.md`](./docs/English/StartupConfiguration.md) |
-| [`docs/English/PetConfiguration.md`](./docs/English/PetConfiguration.md) |
-| [`docs/English/PetPackageCreation.md`](./docs/English/PetPackageCreation.md) |
-| [`docs/English/Plugin.md`](./docs/English/Plugin.md) |
-| [`docs/English/FrequentlyAskedQuestions.md`](./docs/English/FrequentlyAskedQuestions.md) |

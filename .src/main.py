@@ -159,7 +159,12 @@ class DesktopPetConfig:
 class Console(QtWidgets.QInputDialog):
     def __init__(self):
         super().__init__()
-        self.whiteList = ["print(", "#"]
+        self.whiteList = [
+            "print(",
+            "#",
+            "Pet().",
+            "Plugin().",
+        ]
 
     def writeCode(self) -> str | None:
         code = self.getMultiLineText(None, "Console", "Python")
@@ -168,21 +173,52 @@ class Console(QtWidgets.QInputDialog):
         else:
             return
 
-    def checkWhiteList(self, code: str) -> bool:
+    def checkWhitelist(self, code: str) -> bool:
         for item in self.whiteList:
             if code.startswith(item):
                 return True
+        createLog(
+            tran.run(
+                "console.whitelist.not_include",
+                'f"{code} is not included in the whitelist"',
+            ),
+            2,
+        )
         return False
 
     def execCode(self):
         # 控制台命名空间
         # Console Name Space
+        class Plugin:
+            def load(self, id: str):
+                pass
+
+            def reload(self, id: str):
+                pass
+
+            def unload(self, id: str):
+                pass
+
+            def reload_all(self):
+                pass
+
+            def unreload_all(self):
+                pass
+
+            def list(self):
+                text = ""
+                plugins = os.listdir(f"{setting.dataDir}/{setting.desktopPet}/plugin/")
+                for plugin in plugins:
+                    text += f"{plugin}\n"
+                QtWidgets.QMessageBox(
+                    QtWidgets.QMessageBox.Icon.NoIcon, "插件列表", text
+                ).exec()
 
         code = self.writeCode()
         if not code:
             return
         for line in code.split("\n"):
-            if self.checkWhiteList(line):
+            if self.checkWhitelist(line):
                 try:
                     exec(line)
                 except Exception as error:

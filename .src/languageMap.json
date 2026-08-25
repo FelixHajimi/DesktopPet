@@ -8,6 +8,15 @@
     "zh-cn": "控制台",
     "zh-tw": "控制台"
   },
+  "console.whitelist.not_include": {
+    "en-us": "f\"{code} is not included in the whitelist\"",
+    "fr-fr": "f\"{code} n'est pas inclus dans la liste blanche\"",
+    "ja-jp": "f\"{code} はホワイトリストに含まれていません\"",
+    "ko-kr": "f\"{code}이(가) 화이트리스트에 포함되어 있지 않습니다\"",
+    "ru-ru": "f\"{code} не включен в белый список\"",
+    "zh-cn": "f\"{code} 不在白名单中\"",
+    "zh-tw": "f\"{code} 不在白名單中\""
+  },
   "program.menu.about.text": {
     "en-us": "f\"Desktop pet name: `{config.name}`\\nVersion: v`{config.version}`\\nAuthor: `{config.author}`\"",
     "fr-fr": "f\"Nom du pet : `{config.name}`\\nVersion : v`{config.version}`\\nAuteur : `{config.author}`\"",
